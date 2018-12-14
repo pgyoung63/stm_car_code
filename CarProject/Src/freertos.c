@@ -78,14 +78,21 @@
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-osThreadId defaultTaskHandle;
+osThreadId initialTasksHandle;
+osThreadId pwmReadHandle;
+osThreadId templateRWHandle;
+osMutexId printMutexHandle;
+osMutexId sharedMemPwmReadHandle;
+osMutexId sharedMemIOHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
    
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void const * argument);
+void StartInitialTasks(void const * argument);
+void StartPwmRead(void const * argument);
+void StartTemplateRW(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -98,6 +105,19 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
        
   /* USER CODE END Init */
+
+  /* Create the mutex(es) */
+  /* definition and creation of printMutex */
+  osMutexDef(printMutex);
+  printMutexHandle = osMutexCreate(osMutex(printMutex));
+
+  /* definition and creation of sharedMemPwmRead */
+  osMutexDef(sharedMemPwmRead);
+  sharedMemPwmReadHandle = osMutexCreate(osMutex(sharedMemPwmRead));
+
+  /* definition and creation of sharedMemIO */
+  osMutexDef(sharedMemIO);
+  sharedMemIOHandle = osMutexCreate(osMutex(sharedMemIO));
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -112,9 +132,17 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_TIMERS */
 
   /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  /* definition and creation of initialTasks */
+  osThreadDef(initialTasks, StartInitialTasks, osPriorityNormal, 0, 128);
+  initialTasksHandle = osThreadCreate(osThread(initialTasks), NULL);
+
+  /* definition and creation of pwmRead */
+  osThreadDef(pwmRead, StartPwmRead, osPriorityNormal, 0, 128);
+  pwmReadHandle = osThreadCreate(osThread(pwmRead), NULL);
+
+  /* definition and creation of templateRW */
+  osThreadDef(templateRW, StartTemplateRW, osPriorityNormal, 0, 128);
+  templateRWHandle = osThreadCreate(osThread(templateRW), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -125,23 +153,59 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_QUEUES */
 }
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_StartInitialTasks */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the initialTasks thread.
   * @param  argument: Not used 
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+/* USER CODE END Header_StartInitialTasks */
+void StartInitialTasks(void const * argument)
 {
 
-  /* USER CODE BEGIN StartDefaultTask */
+  /* USER CODE BEGIN StartInitialTasks */
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END StartDefaultTask */
+  /* USER CODE END StartInitialTasks */
+}
+
+/* USER CODE BEGIN Header_StartPwmRead */
+/**
+* @brief Function implementing the pwmRead thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartPwmRead */
+void StartPwmRead(void const * argument)
+{
+  /* USER CODE BEGIN StartPwmRead */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartPwmRead */
+}
+
+/* USER CODE BEGIN Header_StartTemplateRW */
+/**
+* @brief Function implementing the templateRW thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTemplateRW */
+void StartTemplateRW(void const * argument)
+{
+  /* USER CODE BEGIN StartTemplateRW */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartTemplateRW */
 }
 
 /* Private application code --------------------------------------------------*/

@@ -1,6 +1,9 @@
 #MicroXplorer Configuration settings - do not modify
-CAN1.CalculateTimeQuantum=333.3333333333333
-CAN1.IPParameters=CalculateTimeQuantum
+CAN1.BS1=CAN_BS1_13TQ
+CAN1.BS2=CAN_BS2_2TQ
+CAN1.CalculateTimeQuantum=62.5
+CAN1.IPParameters=CalculateTimeQuantum,BS1,BS2,Prescaler
+CAN1.Prescaler=3
 CAN2.CalculateTimeQuantum=333.3333333333333
 CAN2.IPParameters=CalculateTimeQuantum
 FREERTOS.FootprintOK=true
@@ -73,8 +76,8 @@ Mcu.PinsNb=41
 Mcu.ThirdPartyNb=0
 Mcu.UserConstants=
 Mcu.UserName=STM32F413ZHTx
-MxCube.Version=5.0.0
-MxDb.Version=DB.5.0.0
+MxCube.Version=5.0.1
+MxDb.Version=DB.5.0.1
 NVIC.BusFault_IRQn=true\:0\:0\:false\:false\:true\:false\:true
 NVIC.DebugMonitor_IRQn=true\:0\:0\:false\:false\:true\:false\:true
 NVIC.HardFault_IRQn=true\:0\:0\:false\:false\:true\:false\:true
